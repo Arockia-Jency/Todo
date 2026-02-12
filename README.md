@@ -27,16 +27,42 @@ A high-performance, real-time Todo application built with **Flutter** and **Supa
 
 ---
 
-## 🏗 Project Structure
+🚦 Getting Started
+1. Prerequisites
+Flutter SDK installed
 
-```text
-lib/
-├── core/                # Global utilities and themes
-├── data/                # Data layer
-│   ├── models/          # TaskModel (Data structures)
-│   ├── supabase_client/ # Supabase initialization & service
-├── features/            # Feature-based modules (MVVM)
-│   └── todo/            
-│       ├── view/        # UI Layer (TodoView)
-│       └── view_model/  # Logic Layer (TodoViewModel)
-└── main.dart            # Entry point & App configuration
+A Supabase project created at supabase.com
+
+2. Setup Database
+Run the following SQL in your Supabase SQL Editor to create the tasks table:
+
+create table tasks (
+  id uuid default uuid_generate_v4() primary key,
+  user_id uuid references auth.users not null,
+  task text not null,
+  is_done boolean default false,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- Enable RLS
+alter table tasks enable row level security;
+create policy "Users can manage their own tasks" on tasks for all using (auth.uid() = user_id);
+
+3. Environment Variables
+Create a .env file in the root directory and add your credentials:
+
+SUPABASE_URL=YOUR_SUPABASE_PROJECT_URL
+SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+
+4. Run the App
+flutter pub get
+flutter run
+
+👨‍💻 Developed By
+Mobile Application Developer
+
+Expertise: Swift (iOS) & Dart (Flutter)
+
+Specialization: Enterprise Solutions & Clean Architecture
+
+
